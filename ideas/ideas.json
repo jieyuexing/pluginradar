@@ -1,13 +1,13 @@
 {
   "schema": 1,
-  "as_of": "2026-11-19",
+  "as_of": "2026-11-23",
   "ideas": [
     {
       "slug": "extension-system",
       "title": "Extension system and marketplace for custom integrations",
       "title_zh": "扩展系统与扩展市场",
-      "problem": "Asks for a formal extension system so integrations, for example local model providers or custom context sources, do not have to live in the core repo. The thread is open, and later plugin proposals reference it, two of them with a concrete design.",
-      "problem_zh": "希望有正式的扩展系统，让本地模型提供方、自定义上下文来源这类集成不必放进核心仓库。该讨论仍开放，后来的插件提案都引用了它，其中两条给出了具体设计。",
+      "problem": "Asks for a formal extension system so integrations, for example local model providers or custom context sources, do not have to live in the core repo. The thread is open; later plugin proposals reference it, two of them with a concrete design, and a 2026-11-21 post restates the same ask: an extension point so changing T3 does not require a fork.",
+      "problem_zh": "希望有正式的扩展系统，让本地模型提供方、自定义上下文来源这类集成不必放进核心仓库。该讨论仍开放；后来的插件提案都引用了它，其中两条给出了具体设计，2026-11-21 又有一条帖子重申同一请求：要有扩展点，改 T3 不必再维护 fork。",
       "category": "platform",
       "sources": [
         {
@@ -34,6 +34,11 @@
           "url": "https://github.com/pingdotgg/t3code/discussions/6977",
           "title": "[RFC]: Local app integration SDK and custom project surfaces MVP",
           "date": "2026-08-13"
+        },
+        {
+          "url": "https://github.com/pingdotgg/t3code/discussions/40566",
+          "title": "[Feature Request] Plugins: an extension point for T3 Code without forking",
+          "date": "2026-11-21"
         }
       ],
       "demand": {
@@ -50,9 +55,9 @@
       },
       "review": {
         "value": "high",
-        "reasons": "Highest upvote count among the platform ideas (24 upvotes, 7 comments), and two later posts propose concrete designs, an RFC and a runnable prototype. docs/user on main still describe no plugin API.",
-        "reasons_zh": "平台类想法里 upvote 最多（24 个 upvote、7 条评论），后来又有两条帖子给出具体设计，一份 RFC 和一个可运行的原型。上游 main 的 docs/user 仍没有插件 API。",
-        "as_of": "2026-11-19",
+        "reasons": "Highest upvote count among the platform ideas (24 upvotes, 7 comments on discussion 6714, read 2026-11-19), two later posts propose concrete designs, and a 2026-11-21 post has 13 upvotes asking for an extension point without forking. docs/user on main still describe no plugin API (read 2026-11-23).",
+        "reasons_zh": "平台类想法里 upvote 最多（讨论 6714 在 2026-11-19 为 24 个 upvote、7 条评论），后来两条帖子给出具体设计，2026-11-21 又有一条 13 个 upvote 的帖子要求不 fork 也能扩展。上游 main 的 docs/user 仍没有插件 API（2026-11-23 核对）。",
+        "as_of": "2026-11-23",
         "action": "keep"
       },
       "status": "open"
@@ -528,10 +533,10 @@
       ],
       "demand": {
         "basis": "discussion",
-        "upvotes": 16,
-        "comments": 7,
+        "upvotes": 23,
+        "comments": 12,
         "url": "https://github.com/pingdotgg/t3code/discussions/15137",
-        "as_of": "2026-11-19"
+        "as_of": "2026-11-23"
       },
       "mount_today": {
         "type": "needs-plugin-api",
@@ -541,9 +546,9 @@
       },
       "review": {
         "value": "medium",
-        "reasons": "16 upvotes, 7 comments, plus a second post (4 upvotes) asking for the same data in orchestrator_capabilities. docs/user list no usage tool; it is a small addition to T3's own MCP server, and quota-aware-provider-routing depends on it (inference).",
-        "reasons_zh": "16 个 upvote、7 条评论，另有一条帖子（4 个 upvote）要求在 orchestrator_capabilities 里给出同样的数据。docs/user 没有列出用量工具；它是给 T3 自己的 MCP 服务器加个小功能，quota-aware-provider-routing 以它为前提（推断）。",
-        "as_of": "2026-11-19",
+        "reasons": "23 upvotes, 12 comments (was 16 and 7 on 2026-11-19), plus a second post asking for the same data in orchestrator_capabilities. docs/user/outside-agents.md still lists projects, threads, providers and models, not quota (read 2026-11-23). It is a small addition to T3's own MCP server, and quota-aware routing depends on it (inference).",
+        "reasons_zh": "23 个 upvote、12 条评论（2026-11-19 时为 16 和 7），另有一条帖子要求在 orchestrator_capabilities 里给出同样的数据。docs/user/outside-agents.md 仍只列项目、线程、提供方和模型，没有额度（2026-11-23 核对）。这是给 T3 自己的 MCP 服务器加个小功能，按额度选提供方以它为前提（推断）。",
+        "as_of": "2026-11-23",
         "action": "keep"
       },
       "status": "open"
@@ -605,10 +610,10 @@
       ],
       "demand": {
         "basis": "discussion",
-        "upvotes": 46,
-        "comments": 13,
+        "upvotes": 51,
+        "comments": 15,
         "url": "https://github.com/pingdotgg/t3code/discussions/11998",
-        "as_of": "2026-11-19"
+        "as_of": "2026-11-23"
       },
       "mount_today": {
         "type": "needs-plugin-api",
@@ -617,9 +622,9 @@
       },
       "review": {
         "value": "medium",
-        "reasons": "46 upvotes and 13 comments, the second highest upvote count of any idea here, after shader-feedback-effects; docs/user still list only the group-by-project beta (thread-sidebar.md). It needs sidebar internals, so upstream may build it as a core feature (inference), which lowers its plugin value.",
-        "reasons_zh": "46 个 upvote、13 条评论，全表第二高，仅次于 shader-feedback-effects；docs/user 仍只有按项目分组的测试版（thread-sidebar.md）。它要用到侧边栏内部逻辑，上游可能直接做成核心功能（推断），这会降低它作为插件的价值。",
-        "as_of": "2026-11-19",
+        "reasons": "51 upvotes and 15 comments (was 46 and 13 on 2026-11-19), still the second highest upvote count here after shader-feedback-effects. docs/user still list only the group-by-project beta (thread-sidebar.md, read 2026-11-23). It needs sidebar internals, so upstream may build it as a core feature (inference).",
+        "reasons_zh": "51 个 upvote、15 条评论（2026-11-19 时为 46 和 13），仍是全表第二高，仅次于 shader-feedback-effects。docs/user 仍只有按项目分组的测试版（thread-sidebar.md，2026-11-23 核对）。它要用到侧边栏内部逻辑，上游可能直接做成核心功能（推断）。",
+        "as_of": "2026-11-23",
         "action": "keep"
       },
       "status": "open"
@@ -788,8 +793,8 @@
       "slug": "outbound-lifecycle-webhooks",
       "title": "Outbound webhooks and local hooks for turn and thread events",
       "title_zh": "回合与线程事件的外发 webhook 与本地钩子",
-      "problem": "Asks for a user-configurable outbound callback when a turn or thread reaches a terminal state, so supervisors, CI or local notifiers (sound or desktop alerts) can react. Scheduled tasks can already be triggered by an inbound webhook; this is the opposite direction. Three posts, counts not added; the third asks for MCP Events in T3's MCP server so outside agents can subscribe to thread updates.",
-      "problem_zh": "希望有用户可配置的外发回调，在回合或线程到达终态时触发，让监督程序、CI 或本地通知器（声音或桌面提醒）能做出反应。定时任务已经能被入站 webhook 触发，这里是相反的方向。三条帖子，数字不相加，第三条要求在 T3 的 MCP 服务器里支持 MCP Events，让外部 Agent 能订阅线程更新。",
+      "problem": "Asks for a user-configurable outbound callback when a turn or thread reaches a terminal state, so supervisors, CI or local notifiers (sound or desktop alerts) can react. Scheduled tasks can already be triggered by an inbound webhook; this is the opposite direction. docs/user/outside-agents.md now describes MCP Events so a bot can poll, stream or receive by webhook when a turn ended, an agent waits, a guest asked, a watched pull request woke its thread, or a workflow run changed. What remains is a simple settings URL or a local process hook that does not speak MCP Events.",
+      "problem_zh": "希望有用户可配置的外发回调，在回合或线程到达终态时触发，让监督程序、CI 或本地通知器（声音或桌面提醒）能做出反应。定时任务已经能被入站 webhook 触发，这里是相反的方向。docs/user/outside-agents.md 现在写了 MCP Events：机器人可以轮询、流式接收或经 webhook 得知回合结束、Agent 在等人、访客提问、被监视的拉取请求唤醒了线程，或工作流运行有变化。还缺的是不讲 MCP Events 协议的简单设置项 URL 或本地进程钩子。",
       "category": "orchestration",
       "sources": [
         {
@@ -822,10 +827,10 @@
         "docs": "https://github.com/pingdotgg/t3code/blob/main/docs/user/outside-agents.md"
       },
       "review": {
-        "value": "medium",
-        "reasons": "5 and 4 upvotes in two posts, plus a third asking for MCP Events (7 upvotes, 10 comments). The MCP route (t3_thread_wait) can approximate it outside T3, so the plugin gain is mostly a built-in event hook.",
-        "reasons_zh": "两条帖子分别 5 个和 4 个 upvote，另有第三条要求 MCP Events（7 个 upvote、10 条评论）。MCP 路线（t3_thread_wait）能在 T3 之外近似它，所以做成插件的增益主要是内置的事件钩子。",
-        "as_of": "2026-11-19",
+        "value": "low",
+        "reasons": "MCP Events in docs/user/outside-agents.md (read 2026-11-23) cover the third source and most of the outbound turn/thread callback: bots can poll, stream or receive webhooks. Discussion 6933 is still open (5 upvotes, 3 comments). What is left is a simple URL or local hook, which is a small core setting (inference), so plugin value is now low.",
+        "reasons_zh": "docs/user/outside-agents.md 里的 MCP Events（2026-11-23 核对）覆盖了第三条来源，以及外发回合/线程回调的大部分：机器人可以轮询、流式接收或收 webhook。讨论 6933 仍开放（5 个 upvote、3 条评论）。剩下的是简单 URL 或本地钩子，更像核心设置（推断），插件价值现为低。",
+        "as_of": "2026-11-23",
         "action": "keep"
       },
       "status": "open"
@@ -1032,10 +1037,10 @@
       ],
       "demand": {
         "basis": "discussion",
-        "upvotes": 31,
+        "upvotes": 37,
         "comments": 15,
         "url": "https://github.com/pingdotgg/t3code/discussions/14118",
-        "as_of": "2026-11-19"
+        "as_of": "2026-11-23"
       },
       "mount_today": {
         "type": "needs-plugin-api",
@@ -1044,9 +1049,9 @@
       },
       "review": {
         "value": "high",
-        "reasons": "31 upvotes and 15 comments from a single post, and its author reports a working prototype. docs/user describe no environment-level MCP list; the plugin RFC (discussion 18844) starts with plugins that contribute MCP servers.",
-        "reasons_zh": "单条帖子 31 个 upvote、15 条评论，作者说已有可用的原型。docs/user 没有环境级的 MCP 列表；插件 RFC（讨论 18844）的第一步正是让插件贡献 MCP 服务器。",
-        "as_of": "2026-11-19",
+        "reasons": "37 upvotes and 15 comments from a single post (was 31 upvotes on 2026-11-19); the author reports a working prototype. docs/user still describe MCP servers per provider (composer.md), not an environment-level list (read 2026-11-23).",
+        "reasons_zh": "单条帖子 37 个 upvote、15 条评论（2026-11-19 时为 31 个 upvote），作者说已有可用的原型。docs/user 仍是各提供方各自配置 MCP 服务器（composer.md），没有环境级列表（2026-11-23 核对）。",
+        "as_of": "2026-11-23",
         "action": "keep"
       },
       "status": "open"
@@ -1158,42 +1163,6 @@
         "value": "low",
         "reasons": "3 upvotes, no comments, single source. It asks for a narrow, read-only surface; docs/user describe no way for outside tools to add to the thread details card.",
         "reasons_zh": "3 个 upvote，无评论，仅此一个来源。要的是一个范围很窄、只读的界面；docs/user 里外部工具无法往线程详情卡里加内容。",
-        "as_of": "2026-11-19",
-        "action": "keep"
-      },
-      "status": "open"
-    },
-    {
-      "slug": "agent-pipelines",
-      "title": "Reusable multi-step, multi-provider agent pipelines",
-      "title_zh": "可复用的多步骤、多提供方 Agent 流水线",
-      "problem": "Asks for saved pipelines of agent steps, each with its own provider, model, permissions and prompt template, started from the composer, with a parent thread showing progress and one thread per step. Today the author copies each answer into the next thread by hand. Single source.",
-      "problem_zh": "希望有保存下来的 Agent 流水线，每一步各有提供方、模型、权限和提示词模板，从输入框启动，由一个父线程显示进度，每一步一个线程。现在作者要手动把每个回答复制进下一个线程。仅此一个来源。",
-      "category": "orchestration",
-      "sources": [
-        {
-          "url": "https://github.com/pingdotgg/t3code/discussions/26694",
-          "title": "Pipelines: reusable multi-step, multi-provider agent chains",
-          "date": "2026-10-28"
-        }
-      ],
-      "demand": {
-        "basis": "discussion",
-        "upvotes": 3,
-        "comments": 3,
-        "url": "https://github.com/pingdotgg/t3code/discussions/26694",
-        "as_of": "2026-11-19"
-      },
-      "mount_today": {
-        "type": "standalone-page",
-        "note": "An outside script can start a thread, send it a message and wait with t3 thread start and t3 thread send --wait (docs/user/outside-agents.md), so a runner could chain steps outside T3's UI without sidebar progress. Choosing a provider per step through the CLI was not checked.",
-        "note_zh": "外部脚本可以用 t3 thread start 和 t3 thread send --wait 启动线程、发消息并等待（docs/user/outside-agents.md），所以可以在 T3 界面之外做一个串联各步骤的运行器，只是侧边栏里看不到进度。能否通过命令行为每一步选提供方，没有核对。",
-        "docs": "https://github.com/pingdotgg/t3code/blob/main/docs/user/outside-agents.md"
-      },
-      "review": {
-        "value": "low",
-        "reasons": "3 upvotes, 3 comments, single source. Outside scripts can chain threads with t3 thread (outside-agents.md), and the request is closer to a core orchestration feature than to a plugin (inference).",
-        "reasons_zh": "3 个 upvote、3 条评论，仅此一个来源。外部脚本可以用 t3 thread 串联线程（outside-agents.md），这条请求更像核心的编排功能，而不是插件（推断）。",
         "as_of": "2026-11-19",
         "action": "keep"
       },
