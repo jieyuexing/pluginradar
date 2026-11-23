@@ -2,15 +2,15 @@
 
 **This is an unofficial community project. It is not affiliated with, endorsed by or sponsored by T3 Code or its maintainers.** "T3 Code" is named only to say what these ideas are for. No official logo or download link is used here.
 
-A list of plugin ideas collected from public T3 Code discussions. If an official plugin API ever arrives, the high-demand ideas can be found quickly and built first. Until then, each idea says which official open entry (Custom CSS, MCP, a Skill, a standalone page) could carry a small version today.
+A community radar for T3 Code extensions: zero-fork add-ons that work today ([works-today.md](works-today.md) and the **Works today** tab), an official plugin API status strip, and plugin ideas collected from public T3 Code discussions. If an official plugin API ever arrives, the high-demand ideas can be found quickly and built first; until then, each idea highlights which official open entry (Custom CSS, MCP, a Skill, a standalone page) can carry a minimal version today.
 
 ## What is collected
 
-- Ideas that someone already described in public, each with its public source link and date. Nothing is invented and nothing comes from private messages or email.
-- For each idea: the problem (in English and Simplified Chinese), a category, the upstream demand (upvotes on the source discussion or comment, with the day it was read), a `mount_today` value with one sentence of reasoning, and a short value review (`high`, `medium` or `low`, with reasons and a suggested action).
-- [works-today.md](works-today.md): small projects that already work without a fork.
+- **Works today ([ideas/works-today.json](ideas/works-today.json) / [works-today.md](works-today.md)):** small projects that already work through official open entries without a fork.
+- **Plugin ideas ([ideas/ideas.json](ideas/ideas.json)):** requests someone already described in public, each with its public source link and date, bilingual problem statement, category, upstream demand (with read date), `mount_today` value with reasoning, and a short value review (`high`, `medium` or `low`). Nothing is invented and nothing comes from private messages or email.
+- **Official plugin API status (`official_api` in `ideas/ideas.json`):** dated status of whether upstream `docs/user` documents a plugin API yet.
 
-The data lives in [ideas/ideas.json](ideas/ideas.json). Rules are in [CONTRIBUTING.md](CONTRIBUTING.md): official open entries only, no ASAR injection or app patching.
+Rules are in [CONTRIBUTING.md](CONTRIBUTING.md): official open entries only, no ASAR injection or app patching.
 
 ## Language
 
@@ -28,8 +28,9 @@ Open an issue with the "Plugin idea" form ([.github/ISSUE_TEMPLATE/idea.yml](.gi
 
 ```sh
 pnpm install                           # once
-pnpm build                             # rebuild docs/index.html from src/ and ideas/ideas.json
-pnpm check                             # type check, validate ideas.json, confirm the page snapshot matches it
+pnpm build                             # rebuild docs/index.html from src/, ideas/ideas.json and ideas/works-today.json
+pnpm check                             # type check, validate data files, confirm page snapshots match them
+node scripts/mine-report.mjs           # read-only upstream diff (counts, docs/user commits, candidates, works-today)
 node scripts/sync-issues.mjs --repo OWNER/NAME   # dry run: what would be closed, edited or created
 node scripts/sync-issues.mjs --execute --repo OWNER/NAME --model "MODEL"   # close reviewed drop/merge ideas, sync bodies, open missing issues (needs gh)
 ```
@@ -48,15 +49,15 @@ The list content (`ideas/`, `works-today.md`, docs) is dedicated to the public d
 
 **这是非官方社区项目，与 T3 Code 官方及其维护者无隶属关系，也未获其认可或赞助。** 文中提到“T3 Code”只是说明这些想法是为谁做的；这里不使用官方 logo，也不放官方下载链接。
 
-这是一份从 T3 Code 公开讨论里收集的插件想法清单。日后如果官方开放插件 API，可以按需求热度快速定位高价值的想法先做。在此之前，每条想法都写明现在能走哪个官方开放入口（Custom CSS、MCP、Skill、独立网页）先做一个最小版本。
+这是一份围绕 T3 Code 扩展生态的非官方社区雷达：既收录无需 fork 今日就能用的小件（[works-today.md](works-today.md) 与页面「今日可用」标签页）与官方插件 API 现状，也汇总来自公开讨论的插件想法。日后如果官方开放插件 API，可以按需求热度快速定位高价值的想法先做；在此之前，每条想法都标明现在能走哪个官方开放入口（Custom CSS、MCP、Skill、独立网页）先做一个最小版本。
 
 ## 收什么
 
-- 别人已经在公开场合提过的想法，每条附公开来源链接和日期；不编造，不来自私信或邮件。
-- 每条包含问题、分类、上游需求（来源讨论或评论的 upvote 数及取数日期）、`mount_today` 取值和一句理由。
-- [works-today.md](works-today.md)：现在就能用、不需要 fork 的小件。
+- **今日可用（[ideas/works-today.json](ideas/works-today.json) / [works-today.md](works-today.md)）：** 经官方开放入口即可使用、不需要 fork 的社区小件。
+- **插件想法（[ideas/ideas.json](ideas/ideas.json)）：** 别人已经在公开场合提过的想法，每条附公开来源链接与日期、中英双语问题陈述、分类、上游需求（含取数日期）、`mount_today` 入口与理由，以及简短的价值审查；不编造，不来自私信或邮件。
+- **官方插件 API 现状（`official_api`）：** 带日期核对上游 `docs/user` 是否已出现官方插件 API。
 
-数据在 [ideas/ideas.json](ideas/ideas.json)，收录标准见 [CONTRIBUTING.md](CONTRIBUTING.md)：只收官方开放入口，不收 ASAR 注入或改应用包。
+收录标准见 [CONTRIBUTING.md](CONTRIBUTING.md)：只收官方开放入口，不收 ASAR 注入或改应用包。
 
 ## 语言
 

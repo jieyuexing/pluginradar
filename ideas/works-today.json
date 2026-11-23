@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "as_of": "2026-11-23",
+  "projects": [
+    {
+      "repo": "chhoumann/t3-pstack",
+      "url": "https://github.com/chhoumann/t3-pstack",
+      "mounts": ["skill", "mcp"],
+      "stars": 306,
+      "stars_as_of": "2026-11-23",
+      "license": "MIT",
+      "non_affiliation": null,
+      "summary": "Skill set whose subagents and panels dispatch across Claude, GPT, and Grok through T3 Code's official MCP tools; its README says it works only inside T3.",
+      "summary_zh": "经 T3 Code 官方 MCP 工具调度多模型子代理与面板的 Skill 套件；其 README 说明仅在 T3 内运行。"
+    },
+    {
+      "repo": "rohit3a/t3-clawd",
+      "url": "https://github.com/rohit3a/t3-clawd",
+      "mounts": ["custom-css"],
+      "stars": 141,
+      "stars_as_of": "2026-11-23",
+      "license": "MIT",
+      "non_affiliation": "Unofficial. Not affiliated with Anthropic or T3.",
+      "summary": "Single-file Claude-inspired theme using T3's built-in theme and Custom CSS system (no fork). Warns that updates may break rules targeting internal attributes.",
+      "summary_zh": "基于 T3 内置主题与 Custom CSS 的单文件类 Claude 主题（无需 fork）；README 提示其依赖内部属性，升级可能需适配。"
+    },
+    {
+      "repo": "josikinzz/t3buddy",
+      "url": "https://github.com/josikinzz/t3buddy",
+      "mounts": ["mcp", "standalone-page"],
+      "stars": 4,
+      "stars_as_of": "2026-11-23",
+      "license": "MIT",
+      "non_affiliation": null,
+      "summary": "macOS desktop heads-up display and desk pet that reads live thread state through T3 Code's official MCP server.",
+      "summary_zh": "通过 T3 Code 官方 MCP 服务器读取实时线程状态的 macOS 桌面 HUD 与桌宠工具。"
+    },
+    {
+      "repo": "emmsixx/t3code-mcp",
+      "url": "https://github.com/emmsixx/t3code-mcp",
+      "mounts": ["mcp"],
+      "stars": 3,
+      "stars_as_of": "2026-11-23",
+      "license": "MIT",
+      "non_affiliation": "Not affiliated with or endorsed by T3 Tools Inc. or Clerk.",
+      "summary": "Stdio MCP gateway that discovers T3 Connect machines and forwards calls to each machine's official T3 MCP tools (each machine still requires its own OAuth approval).",
+      "summary_zh": "发现 T3 Connect 各台机器并转发到各机官方 T3 MCP 工具的 stdio 网关（每台机器仍需各自完成 OAuth 授权）。"
+    },
+    {
+      "repo": "danschewy/afterglow-theme",
+      "url": "https://github.com/danschewy/afterglow-theme",
+      "mounts": ["custom-css"],
+      "stars": 0,
+      "stars_as_of": "2026-11-23",
+      "license": "MIT",
+      "non_affiliation": null,
+      "summary": "Dark theme with restrained multicolor accents imported directly through Settings → Appearance → Add a theme.",
+      "summary_zh": "带克制多色点缀的深色主题，通过「设置 → 外观 → 添加主题」直接导入。"
+    }
+  ],
+  "reference": [
+    {
+      "repo": "Deepusleepy/t3-tots",
+      "url": "https://github.com/Deepusleepy/t3-tots",
+      "stars": 217,
+      "stars_as_of": "2026-11-23",
+      "license": "MIT",
+      "reason": "Uses T3 Code's internal local websocket API and read-only SQLite access while migrating toward the official MCP server and CLI, so it sits outside the official-entries-only mount standard today.",
+      "reason_zh": "当前依赖 T3 Code 内部本地 WebSocket API 与只读 SQLite（正在向官方 MCP 与 CLI 迁移），暂不符合“仅官方开放入口”标准，仅作参考。"
+    }
+  ]
+}

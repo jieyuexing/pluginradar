@@ -1,6 +1,13 @@
 {
   "schema": 1,
   "as_of": "2026-11-23",
+  "official_api": {
+    "status": "not-available",
+    "as_of": "2026-11-23",
+    "tracking_url": "https://github.com/pingdotgg/t3code/discussions/6714",
+    "summary": "No official plugin API in upstream docs/user yet. Open entries today: Custom CSS, MCP, Skills, and standalone apps over MCP/CLI.",
+    "summary_zh": "上游 docs/user 尚无官方插件 API。当前官方开放入口：Custom CSS 主题、MCP、Skill 与经 MCP/CLI 连接的独立工具。"
+  },
   "ideas": [
     {
       "slug": "extension-system",

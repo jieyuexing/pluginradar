@@ -1,9 +1,20 @@
 import { CONFIG } from "./config";
 
 export type MountType = "custom-css" | "mcp" | "skill" | "standalone-page" | "needs-plugin-api";
+export type OpenMountType = Exclude<MountType, "needs-plugin-api">;
 
 export type Value = "high" | "medium" | "low";
 export const VALUES: Value[] = ["high", "medium", "low"];
+
+export type SortMode = "upstream" | "value" | "votes" | "buildable";
+
+export interface OfficialApi {
+  status: "not-available" | "experimental" | "available";
+  as_of: string;
+  tracking_url: string;
+  summary: string;
+  summary_zh?: string;
+}
 
 export interface Review {
   value: Value;
@@ -31,9 +42,38 @@ export interface Idea {
   submitted: boolean;
 }
 
-interface Snapshot {
+export interface Snapshot {
   as_of: string;
+  official_api?: OfficialApi;
   ideas: Omit<Idea, "votes" | "issueUrl" | "submitted">[];
+}
+
+export interface WorksTodayProject {
+  repo: string;
+  url: string;
+  mounts: OpenMountType[];
+  stars: number;
+  stars_as_of: string;
+  license: string;
+  non_affiliation: string | null;
+  summary: string;
+  summary_zh?: string;
+}
+
+export interface WorksTodayReference {
+  repo: string;
+  url: string;
+  stars: number;
+  stars_as_of: string;
+  license: string;
+  reason: string;
+  reason_zh?: string;
+}
+
+export interface WorksTodaySnapshot {
+  as_of: string;
+  projects: WorksTodayProject[];
+  reference: WorksTodayReference[];
 }
 
 interface Issue {
@@ -47,8 +87,15 @@ interface Issue {
 
 export const MOUNT_TYPES: MountType[] = ["custom-css", "mcp", "skill", "standalone-page", "needs-plugin-api"];
 
+export const isBuildableToday = (idea: Pick<Idea, "mount_today">): boolean => idea.mount_today.type !== "needs-plugin-api";
+
 export function readSnapshot(): Snapshot {
   return JSON.parse(document.getElementById("ideas-data")!.textContent!);
+}
+
+export function readWorksToday(): WorksTodaySnapshot {
+  const el = document.getElementById("works-today-data");
+  return el ? JSON.parse(el.textContent!) : { as_of: "", projects: [], reference: [] };
 }
 
 // issue 正文按 .github/ISSUE_TEMPLATE/idea.yml 的字段标题分节。
@@ -109,19 +156,26 @@ export async function fetchIssues(timeoutMs: number): Promise<Issue[]> {
   }
 }
 
-export function sortIdeas(list: Idea[], live: boolean): Idea[] {
+const VALUE_RANK: Record<Value, number> = { high: 3, medium: 2, low: 1 };
+
+export function sortIdeas(list: Idea[], mode: SortMode): Idea[] {
   const up = (i: Idea) => i.demand?.upvotes ?? -1;
   const cm = (i: Idea) => i.demand?.comments ?? 0;
-  return [...list].sort((a, b) =>
-    live
-      ? b.votes - a.votes || up(b) - up(a) || cm(b) - cm(a)
-      : up(b) - up(a) || cm(b) - cm(a) || a.title.localeCompare(b.title),
-  );
+  const vr = (i: Idea) => (i.review ? VALUE_RANK[i.review.value] : 0);
+  const bt = (i: Idea) => (isBuildableToday(i) ? 1 : 0);
+  return [...list].sort((a, b) => {
+    if (mode === "votes") return b.votes - a.votes || up(b) - up(a) || cm(b) - cm(a);
+    if (mode === "value") return vr(b) - vr(a) || b.votes - a.votes || up(b) - up(a) || cm(b) - cm(a);
+    if (mode === "buildable") return bt(b) - bt(a) || vr(b) - vr(a) || up(b) - up(a);
+    return up(b) - up(a) || cm(b) - cm(a) || a.title.localeCompare(b.title);
+  });
 }
 
-// 搜索同时匹配各语言的标题与问题描述，以及分类的当前显示名。
-export function matches(i: Idea, query: string, categoryName: string): boolean {
+// 搜索同时匹配各语言的标题、问题描述、分类与当前挂载方式。
+export function matches(i: Idea, query: string, categoryName: string, mountName: string): boolean {
   const q = query.trim().toLowerCase();
   if (!q) return true;
-  return [i.title, i.title_zh, i.problem, i.problem_zh, i.category, categoryName].some((t) => t?.toLowerCase().includes(q));
+  return [i.title, i.title_zh, i.problem, i.problem_zh, i.category, categoryName, i.mount_today.type, mountName].some((t) =>
+    t?.toLowerCase().includes(q),
+  );
 }

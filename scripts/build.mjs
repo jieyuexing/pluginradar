@@ -1,4 +1,4 @@
-// 构建：Tailwind 编译 CSS，esbuild 打包 JS，连同 ideas.json 快照内联成单个 docs/index.html。
+// 构建：Tailwind 编译 CSS，esbuild 打包 JS，连同 ideas.json 与 works-today.json 快照内联成单个 docs/index.html。
 import { build } from "esbuild";
 import { execFileSync } from "node:child_process";
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
@@ -8,8 +8,8 @@ import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
-export const snapshotTag = (doc) =>
-  `<script id="ideas-data" type="application/json">${JSON.stringify(doc).replaceAll("<", "\\u003c")}</script>`;
+export const snapshotTag = (doc, id = "ideas-data") =>
+  `<script id="${id}" type="application/json">${JSON.stringify(doc).replaceAll("<", "\\u003c")}</script>`;
 
 async function main() {
   const tmp = mkdtempSync(join(tmpdir(), "t3ideas-"));
@@ -34,24 +34,26 @@ async function main() {
     const js = result.outputFiles[0].text.replace(/<\/(script)/gi, "<\\/$1");
     const css = readFileSync(cssFile, "utf8");
     const doc = JSON.parse(readFileSync(join(root, "ideas/ideas.json"), "utf8"));
+    const works = JSON.parse(readFileSync(join(root, "ideas/works-today.json"), "utf8"));
     const html = `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Awesome T3 Code Plugin Ideas</title>
-<meta name="description" content="An unofficial, community-run list of plugin ideas collected from public T3 Code discussions.">
+<meta name="description" content="An unofficial community radar of zero-fork T3 Code add-ons and plugin ideas from public discussions.">
 <style>${css}</style>
 </head>
 <body>
 <div id="root"></div>
-${snapshotTag(doc)}
+${snapshotTag(doc, "ideas-data")}
+${snapshotTag(works, "works-today-data")}
 <script>${js}</script>
 </body>
 </html>
 `;
     writeFileSync(join(root, "docs/index.html"), html);
-    console.log(`docs/index.html ${Buffer.byteLength(html)} B, ${doc.ideas.length} ideas`);
+    console.log(`docs/index.html ${Buffer.byteLength(html)} B, ${doc.ideas.length} ideas, ${works.projects.length} works-today`);
   } finally {
     rmSync(tmp, { recursive: true, force: true });
   }
