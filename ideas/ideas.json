@@ -6,8 +6,8 @@
       "slug": "extension-system",
       "title": "Extension system and marketplace for custom integrations",
       "title_zh": "扩展系统与扩展市场",
-      "problem": "Asks for a formal extension system so integrations, for example local model providers or custom context sources, do not have to live in the core repo. The thread is open; later plugin proposals reference it, two of them with a concrete design, and a 2026-11-21 post restates the same ask: an extension point so changing T3 does not require a fork.",
-      "problem_zh": "希望有正式的扩展系统，让本地模型提供方、自定义上下文来源这类集成不必放进核心仓库。该讨论仍开放；后来的插件提案都引用了它，其中两条给出了具体设计，2026-11-21 又有一条帖子重申同一请求：要有扩展点，改 T3 不必再维护 fork。",
+      "problem": "Asks for a formal extension system so integrations, for example local model providers or custom context sources, do not have to live in the core repo. The thread is open, and later plugin proposals reference it, two of them with a concrete design.",
+      "problem_zh": "希望有正式的扩展系统，让本地模型提供方、自定义上下文来源这类集成不必放进核心仓库。该讨论仍开放，后来的插件提案都引用了它，其中两条给出了具体设计。",
       "category": "platform",
       "sources": [
         {
@@ -34,11 +34,6 @@
           "url": "https://github.com/pingdotgg/t3code/discussions/6977",
           "title": "[RFC]: Local app integration SDK and custom project surfaces MVP",
           "date": "2026-08-13"
-        },
-        {
-          "url": "https://github.com/pingdotgg/t3code/discussions/40566",
-          "title": "[Feature Request] Plugins: an extension point for T3 Code without forking",
-          "date": "2026-11-21"
         }
       ],
       "demand": {
@@ -55,9 +50,9 @@
       },
       "review": {
         "value": "high",
-        "reasons": "Highest upvote count among the platform ideas (24 upvotes, 7 comments on discussion 6714, read 2026-11-19), two later posts propose concrete designs, and a 2026-11-21 post has 13 upvotes asking for an extension point without forking. docs/user on main still describe no plugin API (read 2026-11-23).",
-        "reasons_zh": "平台类想法里 upvote 最多（讨论 6714 在 2026-11-19 为 24 个 upvote、7 条评论），后来两条帖子给出具体设计，2026-11-21 又有一条 13 个 upvote 的帖子要求不 fork 也能扩展。上游 main 的 docs/user 仍没有插件 API（2026-11-23 核对）。",
-        "as_of": "2026-11-23",
+        "reasons": "Highest upvote count among the platform ideas (24 upvotes, 7 comments), and two later posts propose concrete designs, an RFC and a runnable prototype. docs/user on main still describe no plugin API.",
+        "reasons_zh": "平台类想法里 upvote 最多（24 个 upvote、7 条评论），后来又有两条帖子给出具体设计，一份 RFC 和一个可运行的原型。上游 main 的 docs/user 仍没有插件 API。",
+        "as_of": "2026-11-19",
         "action": "keep"
       },
       "status": "open"
