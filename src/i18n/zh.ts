@@ -1,8 +1,8 @@
 import type { Dict } from "./en";
 
 export const zh: Dict = {
-  docTitle: "T3 Code 插件与扩展收录",
-  docDescription: "非官方社区雷达：汇总无需 fork 今日可用的 T3 Code 小件，以及来自公开讨论的插件想法。",
+  docTitle: "PluginRadar · T3 Code 扩展与插件雷达",
+  docDescription: "PluginRadar — 面向 T3 Code 的非官方扩展与插件雷达：汇总无需 fork 今日可用的社区小件、官方插件 API 追踪与公开讨论插件想法。",
   tagline: "汇总无需 fork 今日就能用的扩展小件，以及按上游需求排序的社区插件想法，方便官方开放插件 API 时快速定位高价值项。",
   disclaimer: "非官方社区项目，与 T3 Code 官方及其维护者无隶属关系，也未获其认可或赞助。",
   language: "语言",

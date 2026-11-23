@@ -1,9 +1,9 @@
 {
-  "name": "awesome-t3code-plugin",
+  "name": "pluginradar",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Unofficial list of T3 Code plugin ideas collected from public discussions.",
+  "description": "PluginRadar — Unofficial plugin & add-on radar for T3 Code.",
   "license": "CC0-1.0",
   "scripts": {
     "build": "node scripts/build.mjs",

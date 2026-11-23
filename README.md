@@ -1,6 +1,8 @@
-# Awesome T3 Code Plugin Ideas
+# PluginRadar
 
-**This is an unofficial community project. It is not affiliated with, endorsed by or sponsored by T3 Code or its maintainers.** "T3 Code" is named only to say what these ideas are for. No official logo or download link is used here.
+*Unofficial plugin & add-on radar for T3 Code*
+
+**This is an unofficial community project. It is not affiliated with, endorsed by or sponsored by T3 Code or its maintainers.** "T3 Code" is named only to say what these tools and ideas are for. No official logo or download link is used here.
 
 A community radar for T3 Code extensions: zero-fork add-ons that work today ([works-today.md](works-today.md) and the **Works today** tab), an official plugin API status strip, and plugin ideas collected from public T3 Code discussions. If an official plugin API ever arrives, the high-demand ideas can be found quickly and built first; until then, each idea highlights which official open entry (Custom CSS, MCP, a Skill, a standalone page) can carry a minimal version today.
 
@@ -45,9 +47,11 @@ The list content (`ideas/`, `works-today.md`, docs) is dedicated to the public d
 
 ---
 
-# 中文说明
+# PluginRadar · 中文说明
 
-**这是非官方社区项目，与 T3 Code 官方及其维护者无隶属关系，也未获其认可或赞助。** 文中提到“T3 Code”只是说明这些想法是为谁做的；这里不使用官方 logo，也不放官方下载链接。
+*面向 T3 Code 的非官方扩展与插件雷达*
+
+**这是非官方社区项目，与 T3 Code 官方及其维护者无隶属关系，也未获其认可或赞助。** 文中提到“T3 Code”只是说明这些工具与想法是为谁做的；这里不使用官方 logo，也不放官方下载链接。
 
 这是一份围绕 T3 Code 扩展生态的非官方社区雷达：既收录无需 fork 今日就能用的小件（[works-today.md](works-today.md) 与页面「今日可用」标签页）与官方插件 API 现状，也汇总来自公开讨论的插件想法。日后如果官方开放插件 API，可以按需求热度快速定位高价值的想法先做；在此之前，每条想法都标明现在能走哪个官方开放入口（Custom CSS、MCP、Skill、独立网页）先做一个最小版本。
 

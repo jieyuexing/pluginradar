@@ -40,8 +40,8 @@ async function main() {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Awesome T3 Code Plugin Ideas</title>
-<meta name="description" content="An unofficial community radar of zero-fork T3 Code add-ons and plugin ideas from public discussions.">
+<title>PluginRadar for T3 Code</title>
+<meta name="description" content="PluginRadar — Unofficial plugin & add-on radar for T3 Code: zero-fork add-ons that work today, official plugin API tracker, and ranked ideas from public discussions.">
 <style>${css}</style>
 </head>
 <body>

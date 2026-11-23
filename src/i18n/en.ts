@@ -1,6 +1,6 @@
 export const en = {
-  docTitle: "Awesome T3 Code Plugin Ideas",
-  docDescription: "An unofficial community radar of zero-fork T3 Code add-ons and plugin ideas from public discussions.",
+  docTitle: "PluginRadar for T3 Code",
+  docDescription: "PluginRadar — Unofficial plugin & add-on radar for T3 Code: zero-fork add-ons that work today, official plugin API tracker, and ranked ideas from public discussions.",
   tagline:
     "Zero-fork add-ons that work today plus community plugin ideas ranked by upstream demand — ready to find and build first if an official plugin API arrives.",
   disclaimer: "Unofficial community project, not affiliated with, endorsed by or sponsored by T3 Code or its maintainers.",
