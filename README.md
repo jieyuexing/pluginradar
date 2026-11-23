@@ -20,7 +20,7 @@ The page has a language switch at the top right (English and Simplified Chinese)
 
 ## How to vote
 
-Every idea is one GitHub issue labelled `idea`. Add a 👍 reaction to the issue you want. The static page ([docs/index.html](docs/index.html), built from `src/`) reads those reactions with one GitHub API request when you open it and sorts by them. If the request fails, it falls back to the upstream upvotes stored in `ideas.json` and says so.
+Every idea is one GitHub issue labelled `idea`. Add a 👍 or 👎 reaction to the issue (clicking 👍 or 👎 on any card opens its issue directly). The static page ([docs/index.html](docs/index.html), built from `src/`) reads both `+1` and `-1` reactions with one GitHub API request, displays net score (`👍 - 👎`), and lets you filter (net positive, has 👍, has 👎, controversial) and sort by net score, most 👍, most 👎, upstream demand, value, or buildability. If the request fails, it falls back to the upstream upvotes stored in `ideas.json` and says so.
 
 ## How to submit
 
@@ -69,7 +69,7 @@ The list content (`ideas/`, `works-today.md`, docs) is dedicated to the public d
 
 ## 怎么投票
 
-每个想法是一条带 `idea` 标签的 GitHub issue，给想要的 issue 点 👍。静态页 [docs/index.html](docs/index.html) 打开时用一次 GitHub API 请求读这些 👍 并排序；请求失败时回落为 `ideas.json` 里记录的上游 upvote 并显示说明。
+每个想法是一条带 `idea` 标签的 GitHub issue，可给想要的或不同意的 issue 点 👍 / 👎（点击卡片上的 👍 / 👎 按钮直达对应 issue）。静态页 [docs/index.html](docs/index.html) 打开时用一次 GitHub API 请求同时读取 `+1` 与 `-1` 表情数，计算净赞（`👍 - 👎`），并支持按社区赞踩状态筛选（净赞为正、有 👍、有 👎、有赞有踩）及按净赞、最多 👍、最多 👎、上游热度、价值或今日可做排序；请求失败时回落为 `ideas.json` 里记录的上游 upvote 并显示说明。
 
 ## 怎么提交
 

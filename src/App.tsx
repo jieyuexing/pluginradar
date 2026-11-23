@@ -12,6 +12,7 @@ import {
   Search,
   Sparkles,
   Star,
+  ThumbsDown,
   ThumbsUp,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -20,15 +21,17 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { newIdeaUrl, repoUrl, votesTimeoutMs } from "./config";
+import { issuesUrl, newIdeaUrl, repoUrl, votesTimeoutMs } from "./config";
 import { applyLanguage, detectLanguage, dictOf, LANGUAGES, pick } from "./i18n";
 import type { Dict } from "./i18n/en";
 import {
   fetchIssues,
   isBuildableToday,
   matches,
+  matchesVoteFilter,
   mergeIssues,
   MOUNT_TYPES,
+  netScore,
   readSnapshot,
   readWorksToday,
   sortIdeas,
@@ -37,6 +40,7 @@ import {
   type MountType,
   type SortMode,
   type Value,
+  type VoteFilter,
 } from "./ideas";
 
 const snapshot = readSnapshot();
@@ -80,23 +84,32 @@ function IdeaCard({ idea, live, lang, t }: { idea: Idea; live: boolean; lang: st
   const d = idea.demand;
   const first = idea.sources[0];
   const buildable = isBuildableToday(idea);
+  const hasReactions = live && (idea.votes > 0 || idea.downvotes > 0);
+  const net = netScore(idea);
+  const voteHref = idea.issueUrl ?? issuesUrl;
+
   return (
     <Card size="sm" className="gap-0 rounded-lg ring-border">
       <CardContent className="flex gap-3 px-3">
         <div className="w-11 shrink-0 pt-0.5 text-center" title={d ? t.upstreamTitle(d.upvotes, d.as_of) : undefined}>
           <div className="text-base leading-none font-semibold tabular-nums">{d ? d.upvotes : "–"}</div>
           <div className="mt-1 text-[10px] leading-none text-muted-foreground">{t.upstream}</div>
-          {live && idea.votes > 0 && (
-            <div className="mt-2 flex items-center justify-center gap-0.5 text-xs font-medium text-primary tabular-nums">
-              <ThumbsUp className="size-3" aria-hidden />
-              {idea.votes}
+          {hasReactions && (
+            <div
+              title={t.netTitle(idea.votes, idea.downvotes)}
+              className={cn(
+                "mt-2 text-xs leading-none font-semibold tabular-nums",
+                net > 0 ? "text-emerald-600 dark:text-emerald-400" : net < 0 ? "text-destructive" : "text-muted-foreground",
+              )}
+            >
+              {net > 0 ? `+${net}` : net}
             </div>
           )}
         </div>
         <div className="min-w-0 flex-1">
           <h2 className="text-sm leading-snug font-medium [overflow-wrap:anywhere]">{pick(idea, "title", lang)}</h2>
           <p className={cn("mt-1 text-sm text-foreground/80 [overflow-wrap:anywhere]", !open && "line-clamp-2")}>{pick(idea, "problem", lang)}</p>
-          <div className="mt-2 flex flex-wrap items-center gap-x-2.5 gap-y-1.5 text-xs">
+          <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1.5 text-xs">
             <Badge variant="outline" className={buildable ? BUILDABLE_BADGE : "text-muted-foreground"}>
               {t.mountShort[idea.mount_today.type]}
             </Badge>
@@ -107,6 +120,37 @@ function IdeaCard({ idea, live, lang, t }: { idea: Idea; live: boolean; lang: st
               </Badge>
             )}
             {idea.submitted && <Badge variant="secondary">{t.newBadge}</Badge>}
+            <span className="inline-flex items-center overflow-hidden rounded-md border border-border">
+              <a
+                href={voteHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={t.upvoteTitle}
+                aria-label={t.upvoteTitle}
+                className={cn(
+                  "inline-flex items-center gap-1 px-1.5 py-0.5 tabular-nums transition-colors hover:bg-muted",
+                  live && idea.votes > 0 ? "font-medium text-emerald-700 dark:text-emerald-300" : "text-muted-foreground",
+                )}
+              >
+                <ThumbsUp className="size-3" aria-hidden />
+                {live && idea.votes > 0 && <span>{idea.votes}</span>}
+              </a>
+              <span className="h-3.5 w-px bg-border" aria-hidden />
+              <a
+                href={voteHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={t.downvoteTitle}
+                aria-label={t.downvoteTitle}
+                className={cn(
+                  "inline-flex items-center gap-1 px-1.5 py-0.5 tabular-nums transition-colors hover:bg-muted",
+                  live && idea.downvotes > 0 ? "font-medium text-destructive" : "text-muted-foreground",
+                )}
+              >
+                <ThumbsDown className="size-3" aria-hidden />
+                {live && idea.downvotes > 0 && <span>{idea.downvotes}</span>}
+              </a>
+            </span>
             {d?.comments !== undefined && (
               <span className="inline-flex items-center gap-1 text-muted-foreground tabular-nums">
                 <MessageSquare className="size-3" aria-hidden />
@@ -115,7 +159,6 @@ function IdeaCard({ idea, live, lang, t }: { idea: Idea; live: boolean; lang: st
             )}
             {idea.sources.length > 1 && <span className="text-muted-foreground">{t.sourcesCount(idea.sources.length)}</span>}
             {first && <ExtLink href={first.url}>{discussionLabel(first.url, t)}</ExtLink>}
-            {idea.issueUrl && <ExtLink href={idea.issueUrl}>{t.voteOnGithub}</ExtLink>}
             <Button variant="ghost" size="xs" className="-ml-1 text-muted-foreground" aria-expanded={open} onClick={() => setOpen(!open)}>
               {t.details}
               <ChevronDown className={cn("transition-transform", open && "rotate-180")} aria-hidden />
@@ -166,10 +209,7 @@ function WorksTodayView({ lang, t }: { lang: string; t: Dict }) {
         {worksToday.projects.map((p) => (
           <Card key={p.repo} size="sm" className="gap-0 rounded-lg ring-border">
             <CardContent className="flex gap-3 px-3">
-              <div
-                className="w-11 shrink-0 pt-0.5 text-center"
-                title={t.worksTodayStars(p.stars, p.stars_as_of)}
-              >
+              <div className="w-11 shrink-0 pt-0.5 text-center" title={t.worksTodayStars(p.stars, p.stars_as_of)}>
                 <div className="flex items-center justify-center gap-0.5 text-sm leading-none font-semibold tabular-nums">
                   <Star className="size-3 text-muted-foreground" aria-hidden />
                   {p.stars}
@@ -234,6 +274,7 @@ export function App() {
   const [category, setCategory] = useState("all");
   const [mountFilter, setMountFilter] = useState<MountFilter>("all");
   const [value, setValue] = useState("all");
+  const [voteFilter, setVoteFilter] = useState<VoteFilter>("all");
   const [sortMode, setSortMode] = useState<SortMode>("upstream");
   const [sortTouched, setSortTouched] = useState(false);
   const [query, setQuery] = useState("");
@@ -251,8 +292,8 @@ export function App() {
         const merged = mergeIssues(snapshot, issues);
         setIdeas(merged);
         setVote("live");
-        const total = merged.reduce((sum, item) => sum + item.votes, 0);
-        if (total > 0 && !sortTouched) setSortMode("votes");
+        const total = merged.reduce((sum, item) => sum + item.votes + item.downvotes, 0);
+        if (total > 0 && !sortTouched) setSortMode("net");
       })
       .catch(() => setVote("fallback"));
   }, [sortTouched]);
@@ -266,7 +307,10 @@ export function App() {
   };
 
   const live = vote === "live";
-  const totalVotes = useMemo(() => ideas.reduce((sum, i) => sum + i.votes, 0), [ideas]);
+  const voteTotals = useMemo(
+    () => ideas.reduce((acc, i) => ({ up: acc.up + i.votes, down: acc.down + i.downvotes }), { up: 0, down: 0 }),
+    [ideas],
+  );
   const counts = useMemo(
     () => ({
       all: ideas.length,
@@ -281,8 +325,8 @@ export function App() {
     vote === "loading"
       ? t.voteLoading
       : live
-        ? totalVotes > 0
-          ? t.voteLive(totalVotes)
+        ? voteTotals.up + voteTotals.down > 0
+          ? t.voteLive(voteTotals.up, voteTotals.down)
           : t.voteLiveZero
         : t.voteFallback(snapshot.as_of);
 
@@ -305,12 +349,24 @@ export function App() {
     [t],
   );
   const valueItems = useMemo(() => [{ value: "all", label: t.allValues }, ...VALUES.map((v) => ({ value: v, label: t.valueName[v] }))], [t]);
+  const voteFilterItems = useMemo(
+    () => [
+      { value: "all", label: t.voteFilters.all },
+      { value: "positive", label: t.voteFilters.positive },
+      { value: "liked", label: t.voteFilters.liked },
+      { value: "disliked", label: t.voteFilters.disliked },
+      { value: "controversial", label: t.voteFilters.controversial },
+    ],
+    [t],
+  );
   const sortItems = useMemo(
     () => [
       { value: "upstream", label: t.sortModes.upstream },
+      { value: "net", label: t.sortModes.net },
+      { value: "upvotes", label: t.sortModes.upvotes },
+      { value: "downvotes", label: t.sortModes.downvotes },
       { value: "value", label: t.sortModes.value },
       { value: "buildable", label: t.sortModes.buildable },
-      { value: "votes", label: t.sortModes.votes },
     ],
     [t],
   );
@@ -323,11 +379,12 @@ export function App() {
           if (value !== "all" && i.review?.value !== value) return false;
           if (mountFilter === "buildable" && !isBuildableToday(i)) return false;
           if (mountFilter !== "all" && mountFilter !== "buildable" && i.mount_today.type !== mountFilter) return false;
+          if (!matchesVoteFilter(i, voteFilter)) return false;
           return matches(i, query, categoryName(t, i.category), t.mount[i.mount_today.type]);
         }),
         sortMode,
       ),
-    [ideas, category, mountFilter, value, query, sortMode, t],
+    [ideas, category, mountFilter, value, voteFilter, query, sortMode, t],
   );
 
   const switchLanguage = (code: string | null) => {
@@ -339,6 +396,7 @@ export function App() {
 
   const applyQuickChip = (chip: "all" | "high" | "buildable" | "needs-api") => {
     setCategory("all");
+    setVoteFilter("all");
     setQuery("");
     if (chip === "all") {
       setValue("all");
@@ -356,7 +414,7 @@ export function App() {
   };
 
   const activeChip =
-    category !== "all" || query.trim() !== ""
+    category !== "all" || voteFilter !== "all" || query.trim() !== ""
       ? null
       : value === "all" && mountFilter === "all"
         ? "all"
@@ -482,7 +540,7 @@ export function App() {
           </div>
 
           <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-12">
-            <div className="relative sm:col-span-5">
+            <div className="relative sm:col-span-4">
               <Search className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
               <Input
                 value={query}
@@ -521,13 +579,14 @@ export function App() {
                 </SelectContent>
               </Select>
             </div>
-            <div className="sm:col-span-2">
-              <Select items={valueItems} value={value} onValueChange={(v) => setValue(v ?? "all")}>
-                <SelectTrigger className="w-full" aria-label={t.value}>
+            <div className="sm:col-span-3">
+              <Select items={voteFilterItems} value={voteFilter} onValueChange={(v) => setVoteFilter((v ?? "all") as VoteFilter)}>
+                <SelectTrigger className="w-full" aria-label={t.voteFilterLabel}>
+                  <ThumbsUp className="size-3.5 text-muted-foreground" aria-hidden />
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent alignItemWithTrigger={false}>
-                  {valueItems.map((o) => (
+                  {voteFilterItems.map((o) => (
                     <SelectItem key={o.value} value={o.value}>
                       {o.label}
                     </SelectItem>
@@ -542,7 +601,19 @@ export function App() {
               <Info className="mt-0.5 size-3 shrink-0" aria-hidden />
               <span>{voteNote}</span>
             </p>
-            <div className="flex shrink-0 items-center gap-2">
+            <div className="flex shrink-0 flex-wrap items-center gap-2">
+              <Select items={valueItems} value={value} onValueChange={(v) => setValue(v ?? "all")}>
+                <SelectTrigger size="sm" className="h-7 text-xs" aria-label={t.value}>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent alignItemWithTrigger={false} align="end">
+                  {valueItems.map((o) => (
+                    <SelectItem key={o.value} value={o.value}>
+                      {o.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <Select
                 items={sortItems}
                 value={sortMode}

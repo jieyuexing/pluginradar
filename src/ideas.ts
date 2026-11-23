@@ -6,7 +6,8 @@ export type OpenMountType = Exclude<MountType, "needs-plugin-api">;
 export type Value = "high" | "medium" | "low";
 export const VALUES: Value[] = ["high", "medium", "low"];
 
-export type SortMode = "upstream" | "value" | "votes" | "buildable";
+export type SortMode = "upstream" | "net" | "upvotes" | "downvotes" | "value" | "buildable";
+export type VoteFilter = "all" | "liked" | "disliked" | "positive" | "controversial";
 
 export interface OfficialApi {
   status: "not-available" | "experimental" | "available";
@@ -38,6 +39,7 @@ export interface Idea {
   review?: Review;
   status: string;
   votes: number;
+  downvotes: number;
   issueUrl: string | null;
   submitted: boolean;
 }
@@ -45,7 +47,7 @@ export interface Idea {
 export interface Snapshot {
   as_of: string;
   official_api?: OfficialApi;
-  ideas: Omit<Idea, "votes" | "issueUrl" | "submitted">[];
+  ideas: Omit<Idea, "votes" | "downvotes" | "issueUrl" | "submitted">[];
 }
 
 export interface WorksTodayProject {
@@ -82,12 +84,22 @@ interface Issue {
   body?: string | null;
   html_url: string;
   pull_request?: unknown;
-  reactions?: { "+1"?: number };
+  reactions?: { "+1"?: number; "-1"?: number };
 }
 
 export const MOUNT_TYPES: MountType[] = ["custom-css", "mcp", "skill", "standalone-page", "needs-plugin-api"];
 
 export const isBuildableToday = (idea: Pick<Idea, "mount_today">): boolean => idea.mount_today.type !== "needs-plugin-api";
+
+export const netScore = (idea: Pick<Idea, "votes" | "downvotes">): number => idea.votes - idea.downvotes;
+
+export function matchesVoteFilter(idea: Pick<Idea, "votes" | "downvotes">, filter: VoteFilter): boolean {
+  if (filter === "all") return true;
+  if (filter === "liked") return idea.votes > 0;
+  if (filter === "disliked") return idea.downvotes > 0;
+  if (filter === "positive") return netScore(idea) > 0;
+  return idea.votes > 0 && idea.downvotes > 0;
+}
 
 export function readSnapshot(): Snapshot {
   return JSON.parse(document.getElementById("ideas-data")!.textContent!);
@@ -111,15 +123,19 @@ function sectionsOf(body: string): Record<string, string> {
 
 // 把 API 返回的 issue 并入快照：<!-- idea:slug --> 标记对应已有想法，没有标记的当作用户新提交的。
 export function mergeIssues(snapshot: Snapshot, issues: Issue[]): Idea[] {
-  const bySlug = new Map<string, Idea>(snapshot.ideas.map((i) => [i.slug, { ...i, votes: 0, issueUrl: null, submitted: false }]));
+  const bySlug = new Map<string, Idea>(
+    snapshot.ideas.map((i) => [i.slug, { ...i, votes: 0, downvotes: 0, issueUrl: null, submitted: false }]),
+  );
   const extra: Idea[] = [];
   for (const issue of issues) {
     if (issue.pull_request) continue;
     const votes = issue.reactions?.["+1"] ?? 0;
+    const downvotes = issue.reactions?.["-1"] ?? 0;
     const slug = /<!-- idea:([a-z0-9-]+) -->/.exec(issue.body ?? "")?.[1];
     const known = slug ? bySlug.get(slug) : undefined;
     if (known) {
       known.votes = votes;
+      known.downvotes = downvotes;
       known.issueUrl = issue.html_url;
       continue;
     }
@@ -136,6 +152,7 @@ export function mergeIssues(snapshot: Snapshot, issues: Issue[]): Idea[] {
       mount_today: { type: MOUNT_TYPES.includes(mount) ? mount : "needs-plugin-api", note: s["Why that mount"] ?? "" },
       status: "open",
       votes,
+      downvotes,
       issueUrl: issue.html_url,
       submitted: true,
     });
@@ -164,8 +181,10 @@ export function sortIdeas(list: Idea[], mode: SortMode): Idea[] {
   const vr = (i: Idea) => (i.review ? VALUE_RANK[i.review.value] : 0);
   const bt = (i: Idea) => (isBuildableToday(i) ? 1 : 0);
   return [...list].sort((a, b) => {
-    if (mode === "votes") return b.votes - a.votes || up(b) - up(a) || cm(b) - cm(a);
-    if (mode === "value") return vr(b) - vr(a) || b.votes - a.votes || up(b) - up(a) || cm(b) - cm(a);
+    if (mode === "net") return netScore(b) - netScore(a) || b.votes - a.votes || up(b) - up(a) || cm(b) - cm(a);
+    if (mode === "upvotes") return b.votes - a.votes || a.downvotes - b.downvotes || up(b) - up(a) || cm(b) - cm(a);
+    if (mode === "downvotes") return b.downvotes - a.downvotes || netScore(a) - netScore(b) || up(b) - up(a);
+    if (mode === "value") return vr(b) - vr(a) || netScore(b) - netScore(a) || up(b) - up(a) || cm(b) - cm(a);
     if (mode === "buildable") return bt(b) - bt(a) || vr(b) - vr(a) || up(b) - up(a);
     return up(b) - up(a) || cm(b) - cm(a) || a.title.localeCompare(b.title);
   });
