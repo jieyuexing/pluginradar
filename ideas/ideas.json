@@ -1198,6 +1198,41 @@
         "action": "keep"
       },
       "status": "open"
+    },
+    {
+      "slug": "context-sticky-notes",
+      "title": "Sticky-note staging deck for context in the next prompt",
+      "title_zh": "把上下文暂存成便签、注入下一轮提示词",
+      "problem": "Asks for a reorderable deck of notes in the right sidebar: pin selected text or past responses with their origin, add freeform notes and annotations, order the cards, then have the deck wrapped in XML or JSON and added to the next prompt, with a token count for the stack and storage in SQLite. Single source.",
+      "problem_zh": "希望在右侧栏放一叠可排序的便签：把选中的文字或过去的回答连同出处钉上去，也能手写笔记和批注，调整卡片顺序，再把整叠包成 XML 或 JSON 加进下一轮提示词，并显示这叠内容的 token 数，用 SQLite 保存。仅此一个来源。",
+      "category": "ui-surfaces",
+      "sources": [
+        {
+          "url": "https://github.com/pingdotgg/t3code/discussions/34044",
+          "title": "Feature Request: Sticky-Note Context Carousel for Agentic Prompt Staging",
+          "date": "2026-11-10"
+        }
+      ],
+      "demand": {
+        "basis": "discussion",
+        "upvotes": 1,
+        "comments": 0,
+        "url": "https://github.com/pingdotgg/t3code/discussions/34044",
+        "as_of": "2026-11-23"
+      },
+      "mount_today": {
+        "type": "needs-plugin-api",
+        "note": "No documented open entry adds a sidebar panel that keeps notes across turns or writes them into the next prompt.",
+        "note_zh": "文档里没有哪个开放入口能加一个跨轮次保存便签的侧栏面板，或把便签写进下一轮提示词。"
+      },
+      "review": {
+        "value": "low",
+        "reasons": "1 upvote, 0 comments, single source. A staging panel that feeds the next prompt needs a sidebar surface and a prompt hook, which fits a plugin, but docs/user already describe quoting a response with a comment (composer.md), which covers part of it (inference).",
+        "reasons_zh": "1 个 upvote、0 条评论，仅此一个来源。能给下一轮提示词供稿的暂存面板需要侧栏界面和提示词钩子，适合做成插件；但 docs/user 已有带批注的回答引用（composer.md），覆盖了其中一部分（推断）。",
+        "as_of": "2026-11-23",
+        "action": "keep"
+      },
+      "status": "open"
     }
   ]
 }
