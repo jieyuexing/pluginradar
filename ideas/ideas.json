@@ -757,41 +757,6 @@
       "status": "open"
     },
     {
-      "slug": "source-control-provider-extension",
-      "title": "Extension point for custom source control providers",
-      "title_zh": "自定义代码托管提供方的扩展点",
-      "problem": "Asks for a minimal extension point so CLI-backed providers can add change-request features (create, list, status, checkout) for hosts that T3 does not recognize, such as an internal review system, without keeping a fork. Single source.",
-      "problem_zh": "希望有个最小的扩展点，让基于命令行的提供方能为 T3 不认识的托管服务（比如内部评审系统）加上变更请求功能（创建、列表、状态、检出），不必维护 fork。仅此一个来源。",
-      "category": "git",
-      "sources": [
-        {
-          "url": "https://github.com/pingdotgg/t3code/discussions/13112",
-          "title": "Pluggable source control providers (custom CLI-backed providers for unsupported hosts)",
-          "date": "2026-09-22"
-        }
-      ],
-      "demand": {
-        "basis": "discussion",
-        "upvotes": 6,
-        "comments": 5,
-        "url": "https://github.com/pingdotgg/t3code/discussions/13112",
-        "as_of": "2026-11-19"
-      },
-      "mount_today": {
-        "type": "needs-plugin-api",
-        "note": "The docs list the built-in hosting providers only; no extension point for adding one is documented.",
-        "note_zh": "文档只列出内置的托管提供方；没有记载添加提供方的扩展点。"
-      },
-      "review": {
-        "value": "low",
-        "reasons": "6 upvotes, 5 comments, single source, and it only helps hosts T3 does not support. Separate discussions ask for individual hosts such as SourceCraft (8 upvotes), which suggests upstream adds hosts one by one (inference).",
-        "reasons_zh": "6 个 upvote、5 条评论，仅此一个来源，而且只对 T3 不支持的托管服务有用。另有讨论分别要求具体的托管服务，比如 SourceCraft（8 个 upvote），可见上游更可能逐个加（推断）。",
-        "as_of": "2026-11-19",
-        "action": "keep"
-      },
-      "status": "open"
-    },
-    {
       "slug": "outbound-lifecycle-webhooks",
       "title": "Outbound webhooks and local hooks for turn and thread events",
       "title_zh": "回合与线程事件的外发 webhook 与本地钩子",
@@ -833,42 +798,6 @@
         "reasons": "MCP Events in docs/user/outside-agents.md (read 2026-11-23) cover the third source and most of the outbound turn/thread callback: bots can poll, stream or receive webhooks. Discussion 6933 is still open (5 upvotes, 3 comments). What is left is a simple URL or local hook, which is a small core setting (inference), so plugin value is now low.",
         "reasons_zh": "docs/user/outside-agents.md 里的 MCP Events（2026-11-23 核对）覆盖了第三条来源，以及外发回合/线程回调的大部分：机器人可以轮询、流式接收或收 webhook。讨论 6933 仍开放（5 个 upvote、3 条评论）。剩下的是简单 URL 或本地钩子，更像核心设置（推断），插件价值现为低。",
         "as_of": "2026-11-23",
-        "action": "keep"
-      },
-      "status": "open"
-    },
-    {
-      "slug": "discord-rich-presence",
-      "title": "Discord Rich Presence for coding activity",
-      "title_zh": "把编码状态显示到 Discord 的 Rich Presence",
-      "problem": "Proposes an off-by-default desktop setting that publishes project name, model or agent activity through the local Discord client. The author asked the maintainers for scope approval before continuing. Single source.",
-      "problem_zh": "提议加一个默认关闭的桌面设置，通过本地 Discord 客户端发布项目名、模型或 Agent 活动。作者向维护者询问了范围是否认可，之后才继续。仅此一个来源。",
-      "category": "other",
-      "sources": [
-        {
-          "url": "https://github.com/pingdotgg/t3code/discussions/18348",
-          "title": "Optional desktop Discord Rich Presence (scope approval request)",
-          "date": "2026-10-11"
-        }
-      ],
-      "demand": {
-        "basis": "discussion",
-        "upvotes": 4,
-        "comments": 4,
-        "url": "https://github.com/pingdotgg/t3code/discussions/18348",
-        "as_of": "2026-11-19"
-      },
-      "mount_today": {
-        "type": "standalone-page",
-        "note": "A helper outside T3 could read thread state through MCP the way the desktop HUD t3buddy does (works-today.md) and publish it to the local Discord client. Untested for Rich Presence.",
-        "note_zh": "T3 之外的助手可以像桌面 HUD t3buddy（works-today.md）那样经 MCP 读线程状态，再发布到本地 Discord 客户端。Rich Presence 部分未测试。",
-        "docs": "https://github.com/pingdotgg/t3code/blob/main/docs/user/outside-agents.md"
-      },
-      "review": {
-        "value": "low",
-        "reasons": "4 upvotes, 4 comments, single source; the author asked maintainers whether it is in scope. A harmless fit for a helper outside T3, but few people ask for it.",
-        "reasons_zh": "4 个 upvote、4 条评论，仅此一个来源，作者还在向维护者询问范围是否认可。适合做成 T3 之外的小助手，没有坏处，但要的人不多。",
-        "as_of": "2026-11-19",
         "action": "keep"
       },
       "status": "open"
@@ -943,41 +872,6 @@
         "value": "medium",
         "reasons": "9 upvotes, 11 comments, single source. The data is informational and a per-message footer is a plain UI-hook plugin; docs/user describe no such footer.",
         "reasons_zh": "9 个 upvote、11 条评论，仅此一个来源。内容只是信息展示，逐条消息的页脚是典型的界面钩子类插件；docs/user 没有这种页脚。",
-        "as_of": "2026-11-19",
-        "action": "keep"
-      },
-      "status": "open"
-    },
-    {
-      "slug": "composer-prompt-snippets",
-      "title": "Saved prompt snippets in the composer",
-      "title_zh": "输入框里的常用提示词片段",
-      "problem": "Asks for named, optionally grouped snippets that are searchable from the composer and inserted into the draft without sending, for repeated PR, review or CI prompts. Single source.",
-      "problem_zh": "希望有命名、可分组的片段，能在输入框里搜索并插入草稿而不发送，用于重复的 PR、评审或 CI 提示词。仅此一个来源。",
-      "category": "skills-mcp",
-      "sources": [
-        {
-          "url": "https://github.com/pingdotgg/t3code/discussions/6712",
-          "title": "[Feature]: Saved snippets for frequently used prompts, with optional grouping",
-          "date": "2026-03-29"
-        }
-      ],
-      "demand": {
-        "basis": "discussion",
-        "upvotes": 4,
-        "comments": 2,
-        "url": "https://github.com/pingdotgg/t3code/discussions/6712",
-        "as_of": "2026-11-19"
-      },
-      "mount_today": {
-        "type": "needs-plugin-api",
-        "note": "Prompt links (prompt-links.md) open a ready-to-send draft and a Skill can carry a repeated prompt, which approximate a snippet, but the docs describe no searchable snippet library inside the composer. Untested.",
-        "note_zh": "提示词链接（prompt-links.md）能打开写好待发的草稿，Skill 也能承载重复的提示词，两者都近似片段，但文档没有描述输入框里可搜索的片段库。未测试。"
-      },
-      "review": {
-        "value": "low",
-        "reasons": "4 upvotes, 2 comments, single source. Prompt links and Skills approximate it (prompt-links.md); docs/user also describe a prompt stash for drafts (composer.md), which is not a snippet library.",
-        "reasons_zh": "4 个 upvote、2 条评论，仅此一个来源。提示词链接和 Skill 能近似它（prompt-links.md）；docs/user 里还有给草稿用的提示词暂存（composer.md），但那不是片段库。",
         "as_of": "2026-11-19",
         "action": "keep"
       },
@@ -1059,42 +953,6 @@
       "status": "open"
     },
     {
-      "slug": "telegram-channel",
-      "title": "Send results to Telegram and answer from the chat",
-      "title_zh": "把结果发到 Telegram，并在聊天里回复",
-      "problem": "Asks for an opt-in Telegram bot channel: an agent sends a file or message only when told to, and a reply to that message becomes a new turn in the thread that sent it. The author says it already runs on their fork with a send tool and a thread picker, and stresses it is not a notification system. Single source.",
-      "problem_zh": "希望有个可选的 Telegram 机器人通道：Agent 只在被要求时才发文件或消息，回复这条消息就会成为发出它的线程里的新一轮。作者说已在自己的 fork 上跑着，带发送工具和线程选择，并强调这不是通知系统。仅此一个来源。",
-      "category": "other",
-      "sources": [
-        {
-          "url": "https://github.com/pingdotgg/t3code/discussions/16536",
-          "title": "Telegram channel: a thread sends you a result when you ask, and you answer from the chat",
-          "date": "2026-10-06"
-        }
-      ],
-      "demand": {
-        "basis": "discussion",
-        "upvotes": 3,
-        "comments": 2,
-        "url": "https://github.com/pingdotgg/t3code/discussions/16536",
-        "as_of": "2026-11-19"
-      },
-      "mount_today": {
-        "type": "mcp",
-        "note": "A separate MCP server added to the provider could expose a send tool, and a small bot process could post replies into a thread with t3 thread send (docs/user/outside-agents.md). Untested.",
-        "note_zh": "加到提供方上的独立 MCP 服务器可以提供发送工具，一个小的机器人进程可以用 t3 thread send 把回复发进线程（docs/user/outside-agents.md）。未测试。",
-        "docs": "https://github.com/pingdotgg/t3code/blob/main/docs/user/outside-agents.md"
-      },
-      "review": {
-        "value": "low",
-        "reasons": "3 upvotes, 2 comments, single source; the author already runs it on a fork. A classic integration for a plugin or companion bot, but demand so far is one author's workflow.",
-        "reasons_zh": "3 个 upvote、2 条评论，仅此一个来源，作者已在自己的 fork 上跑着。这是典型的适合做成插件或伴侣机器人的集成，但目前的需求只来自一位作者的工作方式。",
-        "as_of": "2026-11-19",
-        "action": "keep"
-      },
-      "status": "open"
-    },
-    {
       "slug": "secret-providers",
       "title": "More secret providers, starting with Bitwarden",
       "title_zh": "更多密钥提供方，先支持 Bitwarden",
@@ -1131,76 +989,6 @@
         "reasons": "5 upvotes (4 comments) and 4 upvotes in two posts, both asking for Bitwarden; docs/user name 1Password as the only secret provider (secrets.md). Provider drivers suit a plugin API, but demand is small.",
         "reasons_zh": "两条帖子分别 5 个 upvote（4 条评论）和 4 个 upvote，都要 Bitwarden；docs/user 里 1Password 是唯一的密钥提供方（secrets.md）。提供方驱动适合放进插件 API，但需求不大。",
         "as_of": "2026-11-19",
-        "action": "keep"
-      },
-      "status": "open"
-    },
-    {
-      "slug": "thread-status-sections",
-      "title": "Status sections that external tools publish in the thread details panel",
-      "title_zh": "外部工具可在线程详情面板里发布的状态区块",
-      "problem": "When a tool keeps working after an agent's turn ends, it is hard to see what the thread is waiting for. Asks for small, informational sections in the thread details panel that an authenticated outside tool can create, replace or remove, such as a list of watched pull requests and deployments. Single source.",
-      "problem_zh": "当某个工具在 Agent 的回合结束后继续工作时，很难看出线程在等什么。希望线程详情面板里有小的信息区块，由经过认证的外部工具创建、替换或删除，比如被监视的拉取请求和部署清单。仅此一个来源。",
-      "category": "ui-surfaces",
-      "sources": [
-        {
-          "url": "https://github.com/pingdotgg/t3code/discussions/26784",
-          "title": "Let external tools publish status sections in a thread’s details panel",
-          "date": "2026-10-29"
-        }
-      ],
-      "demand": {
-        "basis": "discussion",
-        "upvotes": 3,
-        "comments": 0,
-        "url": "https://github.com/pingdotgg/t3code/discussions/26784",
-        "as_of": "2026-11-19"
-      },
-      "mount_today": {
-        "type": "needs-plugin-api",
-        "note": "The docs list no entry that adds content to the thread details card; outside agents can read and message threads (docs/user/outside-agents.md), but the docs show no way to publish a section there.",
-        "note_zh": "文档里没有往线程详情卡加内容的入口；外部 Agent 能读线程、发消息（docs/user/outside-agents.md），但文档没有说明怎样在那里发布区块。"
-      },
-      "review": {
-        "value": "low",
-        "reasons": "3 upvotes, no comments, single source. It asks for a narrow, read-only surface; docs/user describe no way for outside tools to add to the thread details card.",
-        "reasons_zh": "3 个 upvote，无评论，仅此一个来源。要的是一个范围很窄、只读的界面；docs/user 里外部工具无法往线程详情卡里加内容。",
-        "as_of": "2026-11-19",
-        "action": "keep"
-      },
-      "status": "open"
-    },
-    {
-      "slug": "context-sticky-notes",
-      "title": "Sticky-note staging deck for context in the next prompt",
-      "title_zh": "把上下文暂存成便签、注入下一轮提示词",
-      "problem": "Asks for a reorderable deck of notes in the right sidebar: pin selected text or past responses with their origin, add freeform notes and annotations, order the cards, then have the deck wrapped in XML or JSON and added to the next prompt, with a token count for the stack and storage in SQLite. Single source.",
-      "problem_zh": "希望在右侧栏放一叠可排序的便签：把选中的文字或过去的回答连同出处钉上去，也能手写笔记和批注，调整卡片顺序，再把整叠包成 XML 或 JSON 加进下一轮提示词，并显示这叠内容的 token 数，用 SQLite 保存。仅此一个来源。",
-      "category": "ui-surfaces",
-      "sources": [
-        {
-          "url": "https://github.com/pingdotgg/t3code/discussions/34044",
-          "title": "Feature Request: Sticky-Note Context Carousel for Agentic Prompt Staging",
-          "date": "2026-11-10"
-        }
-      ],
-      "demand": {
-        "basis": "discussion",
-        "upvotes": 1,
-        "comments": 0,
-        "url": "https://github.com/pingdotgg/t3code/discussions/34044",
-        "as_of": "2026-11-23"
-      },
-      "mount_today": {
-        "type": "needs-plugin-api",
-        "note": "No documented open entry adds a sidebar panel that keeps notes across turns or writes them into the next prompt.",
-        "note_zh": "文档里没有哪个开放入口能加一个跨轮次保存便签的侧栏面板，或把便签写进下一轮提示词。"
-      },
-      "review": {
-        "value": "low",
-        "reasons": "1 upvote, 0 comments, single source. A staging panel that feeds the next prompt needs a sidebar surface and a prompt hook, which fits a plugin, but docs/user already describe quoting a response with a comment (composer.md), which covers part of it (inference).",
-        "reasons_zh": "1 个 upvote、0 条评论，仅此一个来源。能给下一轮提示词供稿的暂存面板需要侧栏界面和提示词钩子，适合做成插件；但 docs/user 已有带批注的回答引用（composer.md），覆盖了其中一部分（推断）。",
-        "as_of": "2026-11-23",
         "action": "keep"
       },
       "status": "open"
