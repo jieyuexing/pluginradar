@@ -4,7 +4,7 @@
 // 默认 dry-run 只打印；带 --execute --repo OWNER/NAME --model "<模型名>" 才动 GitHub 并改写 ideas.json。
 // 用 REST 且每步先查状态，重跑不会重复评论或重复开 issue。改完数据后要 pnpm build && pnpm check 再提交。
 import { execFileSync } from "node:child_process";
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, realpathSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { validate } from "./check.mjs";
@@ -125,4 +125,5 @@ function main() {
   console.log(`${execute ? "完成" : "预演"}：关闭 ${removed.size}、改正文 ${edited}、新开 ${created}${execute && removed.size ? "；ideas.json 已改，运行 pnpm build && pnpm check 后提交" : ""}`);
 }
 
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main();
+// 按真实路径比较：经符号链接调用时 argv[1] 是链接路径，而 import.meta.url 已解析成真实路径。
+if (process.argv[1] && realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) main();

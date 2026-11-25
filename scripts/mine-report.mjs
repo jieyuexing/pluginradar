@@ -2,7 +2,7 @@
 // 只读预采集脚本：一次性用 gh 抓取上游 pingdotgg/t3code 的全部确定性信号，供每周维护任务做语义判断，不修改任何文件或 GitHub 状态。
 // 用法：node scripts/mine-report.mjs [--since YYYY-MM-DD] [--json]
 import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { readFileSync, realpathSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -266,4 +266,5 @@ function main() {
   }
 }
 
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main();
+// 按真实路径比较：经符号链接调用时 argv[1] 是链接路径，而 import.meta.url 已解析成真实路径。
+if (process.argv[1] && realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) main();

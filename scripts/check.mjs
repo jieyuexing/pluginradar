@@ -2,7 +2,7 @@
 // 校验 ideas/ideas.json 与 ideas/works-today.json（及其人读镜像 works-today.md），并检查构建产物 docs/index.html 内嵌快照一致。
 // 用法：node scripts/check.mjs [ideas.json 路径]   只校验该 ideas 文件
 //       node scripts/check.mjs                     校验默认数据文件并核对页面快照（不一致就先 pnpm build）
-import { readFileSync } from "node:fs";
+import { readFileSync, realpathSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -259,4 +259,5 @@ async function main() {
   console.log(`OK ${doc.ideas.length} 条想法${works ? `、${works.projects.length} 个今日可用项目` : ""}通过校验`);
 }
 
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) await main();
+// 按真实路径比较：经符号链接调用时 argv[1] 是链接路径，而 import.meta.url 已解析成真实路径。
+if (process.argv[1] && realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) await main();
