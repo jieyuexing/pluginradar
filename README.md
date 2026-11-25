@@ -31,7 +31,8 @@ Open an issue with the "Plugin idea" form ([.github/ISSUE_TEMPLATE/idea.yml](.gi
 ```sh
 pnpm install                           # once
 pnpm build                             # rebuild docs/index.html from src/, ideas/ideas.json and ideas/works-today.json
-pnpm check                             # type check, validate data files, confirm page snapshots match them
+pnpm check                             # type check, validate data files, confirm page snapshots match them, run tests
+pnpm test                              # script tests only (fixtures and a fake gh; never calls GitHub)
 node scripts/mine-report.mjs           # read-only upstream diff (counts, docs/user commits, candidates, works-today)
 node scripts/sync-issues.mjs --repo OWNER/NAME   # dry run: what would be closed, edited or created
 node scripts/sync-issues.mjs --execute --repo OWNER/NAME --model "MODEL"   # close reviewed drop/merge ideas, sync bodies, open missing issues (needs gh)
