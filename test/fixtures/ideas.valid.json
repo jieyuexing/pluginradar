@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "as_of": "2026-11-23",
+  "official_api": {
+    "status": "not-available",
+    "as_of": "2026-11-23",
+    "tracking_url": "https://github.com/pingdotgg/t3code/pull/1",
+    "summary": "No plugin API yet.",
+    "summary_zh": "尚无插件 API。"
+  },
+  "ideas": [
+    {
+      "slug": "alpha",
+      "title": "Idea alpha",
+      "title_zh": "想法 alpha",
+      "problem": "A problem. Single source.",
+      "problem_zh": "一个问题。单一来源。",
+      "category": "orchestration",
+      "sources": [
+        {
+          "url": "https://github.com/pingdotgg/t3code/discussions/100",
+          "title": "Upstream post",
+          "date": "2026-11-01"
+        }
+      ],
+      "demand": {
+        "basis": "discussion",
+        "upvotes": 12,
+        "comments": 3,
+        "url": "https://github.com/pingdotgg/t3code/discussions/100",
+        "as_of": "2026-11-19"
+      },
+      "mount_today": {
+        "type": "needs-plugin-api",
+        "note": "Why.",
+        "note_zh": "原因。"
+      },
+      "review": {
+        "value": "medium",
+        "reasons": "12 upvotes.",
+        "reasons_zh": "12 赞。",
+        "as_of": "2026-11-19",
+        "action": "keep"
+      },
+      "status": "open"
+    },
+    {
+      "slug": "beta",
+      "title": "Idea beta",
+      "title_zh": "想法 beta",
+      "problem": "A problem. Single source.",
+      "problem_zh": "一个问题。单一来源。",
+      "category": "orchestration",
+      "sources": [
+        {
+          "url": "https://github.com/pingdotgg/t3code/discussions/200",
+          "title": "Upstream post",
+          "date": "2026-11-01"
+        }
+      ],
+      "demand": {
+        "basis": "discussion",
+        "upvotes": 12,
+        "comments": 3,
+        "url": "https://github.com/pingdotgg/t3code/discussions/200",
+        "as_of": "2026-11-19"
+      },
+      "mount_today": {
+        "type": "mcp",
+        "note": "Why.",
+        "note_zh": "原因。",
+        "docs": "https://github.com/pingdotgg/t3code/blob/main/docs/user/outside-agents.md"
+      },
+      "review": {
+        "value": "medium",
+        "reasons": "12 upvotes.",
+        "reasons_zh": "12 赞。",
+        "as_of": "2026-11-19",
+        "action": "keep"
+      },
+      "status": "open"
+    },
+    {
+      "slug": "gamma",
+      "title": "Idea gamma",
+      "title_zh": "想法 gamma",
+      "problem": "A problem. Single source.",
+      "problem_zh": "一个问题。单一来源。",
+      "category": "orchestration",
+      "sources": [
+        {
+          "url": "https://github.com/pingdotgg/t3code/discussions/300",
+          "title": "Upstream post",
+          "date": "2026-11-01"
+        }
+      ],
+      "demand": {
+        "basis": "discussion",
+        "upvotes": 12,
+        "comments": 3,
+        "url": "https://github.com/pingdotgg/t3code/discussions/300",
+        "as_of": "2026-11-19"
+      },
+      "mount_today": {
+        "type": "skill",
+        "note": "Why.",
+        "note_zh": "原因。",
+        "docs": "https://github.com/pingdotgg/t3code/blob/main/docs/user/outside-agents.md"
+      },
+      "review": {
+        "value": "medium",
+        "reasons": "12 upvotes.",
+        "reasons_zh": "12 赞。",
+        "as_of": "2026-11-19",
+        "action": "merge-into:alpha"
+      },
+      "status": "open"
+    }
+  ]
+}

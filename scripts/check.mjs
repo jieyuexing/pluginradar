@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 校验 ideas/ideas.json 与 ideas/works-today.json，并检查构建产物 docs/index.html 内嵌快照一致。
+// 校验 ideas/ideas.json 与 ideas/works-today.json（及其人读镜像 works-today.md），并检查构建产物 docs/index.html 内嵌快照一致。
 // 用法：node scripts/check.mjs [ideas.json 路径]   只校验该 ideas 文件
 //       node scripts/check.mjs                     校验默认数据文件并核对页面快照（不一致就先 pnpm build）
 import { readFileSync } from "node:fs";
@@ -15,7 +15,14 @@ export const API_STATUSES = ["not-available", "experimental", "available"];
 // 语言登记表与页面共用：每种语言的数据字段后缀（基础语言为空）。
 export const LANGUAGES = JSON.parse(readFileSync(resolve(root, "src/i18n/languages.json"), "utf8"));
 const SNAPSHOT_OF = (id) => new RegExp(`<script id="${id}" type="application\\/json">([\\s\\S]*?)<\\/script>`);
-const DATE = /^\d{4}-\d{2}-\d{2}$/;
+// 日期写成 YYYY-MM-DD 且是日历上真实存在的一天（2026-02-30、2026-13-01 不算）。
+const DATE = {
+  test: (v) => {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(v)) return false;
+    const t = Date.parse(`${v}T00:00:00Z`);
+    return !Number.isNaN(t) && new Date(t).toISOString().startsWith(v);
+  },
+};
 const AT_MENTION = /(^|[^\w`])@[A-Za-z0-9-]/;
 
 const isText = (v) => typeof v === "string" && v.trim() !== "";
@@ -82,6 +89,8 @@ export function validate(doc, categoryNames) {
     if (!MOUNT_TYPES.includes(m?.type)) bad(`mount_today.type 必须是 ${MOUNT_TYPES.join(" / ")} 之一`);
     if (!isText(m?.note)) bad("mount_today.note 缺失");
     if (m?.docs !== undefined && !isHttps(m.docs)) bad("mount_today.docs 必须是 https 链接");
+    // 今日挂载是事实判断：needs-plugin-api 以外的值要给出官方文档或已核实先例作依据。
+    else if (m?.docs === undefined && OPEN_MOUNT_TYPES.includes(m?.type)) bad(`mount_today.type 为 ${m.type} 时须用 mount_today.docs 给出官方文档或已核实先例的 https 链接`);
     const r = idea?.review;
     if (!VALUES.includes(r?.value)) bad(`review.value 必须是 ${VALUES.join(" / ")} 之一`);
     if (!DATE.test(r?.as_of ?? "")) bad("review.as_of 必须是 YYYY-MM-DD");
@@ -149,6 +158,52 @@ export function validateWorksToday(doc) {
   return errors;
 }
 
+// works-today.md 是 works-today.json 的人读镜像：表格行与 projects 一一对应（链接、挂载、星数、许可证开头），
+// 表头星数日期与每个项目的 stars_as_of 一致，「Listed for reference」段列出每个 reference 及其星数。
+export function validateWorksTodayMarkdown(md, doc) {
+  const errors = [];
+  const text = md.replace(/\r\n/g, "\n");
+  const header = /^\| Project \| Mount \| Stars \(([^)]*)\) \| License \|.*$/m.exec(text);
+  if (!header) return ["works-today.md 缺少 | Project | Mount | Stars (YYYY-MM-DD) | License | 表头"];
+  const rows = new Map();
+  for (const line of text.slice(header.index).split("\n").slice(2)) {
+    if (!line.startsWith("|")) break;
+    const cells = line.split("|").slice(1, -1).map((c) => c.trim());
+    const link = /^\[([^\]]+)\]\(([^)]+)\)$/.exec(cells[0] ?? "");
+    if (!link) {
+      errors.push(`works-today.md 表格行无法解析：${line}`);
+      continue;
+    }
+    if (rows.has(link[1])) errors.push(`works-today.md[${link[1]}]: 表格里重复`);
+    rows.set(link[1], { url: link[2], mounts: cells[1] ?? "", stars: cells[2] ?? "", license: cells[3] ?? "" });
+  }
+  const projects = Array.isArray(doc?.projects) ? doc.projects : [];
+  for (const p of projects) {
+    const id = `works-today.md[${p?.repo}]`;
+    const row = rows.get(p?.repo);
+    rows.delete(p?.repo);
+    if (!row) {
+      errors.push(`${id}: works-today.json 有此项目，表格里没有`);
+      continue;
+    }
+    if (row.url !== p.url) errors.push(`${id}: url ${row.url} 与 json 的 ${p.url} 不一致`);
+    const mounts = row.mounts.split(",").map((m) => m.trim()).filter(Boolean);
+    if ([...mounts].sort().join() !== [...(p.mounts ?? [])].sort().join()) errors.push(`${id}: mounts「${row.mounts}」与 json 的 ${p.mounts?.join(", ")} 不一致`);
+    if (row.stars !== String(p.stars)) errors.push(`${id}: stars ${row.stars} 与 json 的 ${p.stars} 不一致`);
+    if (!isText(p.license) || !row.license.startsWith(p.license)) errors.push(`${id}: license「${row.license}」与 json 的 ${p.license} 不一致`);
+    if (header[1] !== p.stars_as_of) errors.push(`${id}: 表头星数日期 ${header[1]} 与 json 的 stars_as_of ${p.stars_as_of} 不一致`);
+  }
+  for (const repo of rows.keys()) errors.push(`works-today.md[${repo}]: 表格里有，works-today.json 的 projects 里没有`);
+  const refStart = text.search(/^## Listed for reference/m);
+  const refSection = refStart < 0 ? "" : text.slice(refStart).split(/\n## /)[0];
+  for (const r of Array.isArray(doc?.reference) ? doc.reference : []) {
+    const line = refSection.split("\n").find((l) => l.includes(`[${r?.repo}](${r?.url})`));
+    if (!line) errors.push(`works-today.md[${r?.repo}]: 「Listed for reference」段缺少此参考项或链接不一致`);
+    else if (!new RegExp(`\\b${r.stars} stars\\b`).test(line)) errors.push(`works-today.md[${r.repo}]: 参考项星数与 json 的 ${r.stars} 不一致`);
+  }
+  return errors;
+}
+
 // 字典是 TypeScript 文件，Node 直接去掉类型后加载，只取分类名。
 export async function loadCategoryNames() {
   const out = {};
@@ -174,6 +229,7 @@ async function main() {
     try {
       works = JSON.parse(readFileSync(worksPath, "utf8"));
       errors.push(...validateWorksToday(works));
+      errors.push(...validateWorksTodayMarkdown(readFileSync(resolve(root, "works-today.md"), "utf8"), works));
     } catch (e) {
       errors.push(`无法读取 ${worksPath}: ${e.message}`);
     }

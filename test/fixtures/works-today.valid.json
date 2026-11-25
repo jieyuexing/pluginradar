@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "as_of": "2026-11-23",
+  "projects": [
+    {
+      "repo": "example/one",
+      "url": "https://github.com/example/one",
+      "mounts": [
+        "skill",
+        "mcp"
+      ],
+      "stars": 30,
+      "stars_as_of": "2026-11-23",
+      "license": "MIT",
+      "non_affiliation": null,
+      "summary": "One.",
+      "summary_zh": "一。"
+    },
+    {
+      "repo": "example/two",
+      "url": "https://github.com/example/two",
+      "mounts": [
+        "custom-css"
+      ],
+      "stars": 4,
+      "stars_as_of": "2026-11-23",
+      "license": "Apache-2.0",
+      "non_affiliation": "Unofficial.",
+      "summary": "Two.",
+      "summary_zh": "二。"
+    }
+  ],
+  "reference": [
+    {
+      "repo": "example/ref",
+      "url": "https://github.com/example/ref",
+      "stars": 17,
+      "stars_as_of": "2026-11-23",
+      "license": "MIT",
+      "reason": "Internal API.",
+      "reason_zh": "内部 API。"
+    }
+  ]
+}
