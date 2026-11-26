@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "as_of": "2026-11-23",
+  "as_of": "2026-11-26",
   "official_api": {
     "status": "not-available",
-    "as_of": "2026-11-23",
+    "as_of": "2026-11-26",
     "tracking_url": "https://github.com/pingdotgg/t3code/discussions/6714",
-    "summary": "No official plugin API in upstream docs/user yet. Open entries today: Custom CSS, MCP, Skills, and standalone apps over MCP/CLI.",
-    "summary_zh": "上游 docs/user 尚无官方插件 API。当前官方开放入口：Custom CSS 主题、MCP、Skill 与经 MCP/CLI 连接的独立工具。"
+    "summary": "No official plugin API in upstream docs/user yet. An experimental upstream PR that turns features into replaceable builtin plugins with hot reload (#40222, opened 2026-11-21) is labeled DO NOT MERGE and not merged. Open entries today: Custom CSS, MCP, Skills, and standalone apps over MCP/CLI.",
+    "summary_zh": "上游 docs/user 尚无官方插件 API。上游有一个把各功能改成可替换内置插件并支持热重载的实验 PR（#40222，2026-11-21 开），标着 DO NOT MERGE，未合入。当前官方开放入口：Custom CSS 主题、MCP、Skill 与经 MCP/CLI 连接的独立工具。"
   },
   "ideas": [
     {
@@ -275,10 +275,10 @@
       ],
       "demand": {
         "basis": "discussion",
-        "upvotes": 33,
-        "comments": 19,
+        "upvotes": 41,
+        "comments": 26,
         "url": "https://github.com/pingdotgg/t3code/discussions/6889",
-        "as_of": "2026-11-19"
+        "as_of": "2026-11-26"
       },
       "mount_today": {
         "type": "mcp",
@@ -288,9 +288,9 @@
       },
       "review": {
         "value": "high",
-        "reasons": "33 upvotes and 19 comments. A companion app that reads thread state over the official MCP server already exists (t3buddy, works-today.md), so a first version needs no plugin API.",
-        "reasons_zh": "33 个 upvote、19 条评论。经官方 MCP 服务器读线程状态的伴侣应用已经存在（t3buddy，见 works-today.md），做第一版不需要插件 API。",
-        "as_of": "2026-11-19",
+        "reasons": "41 upvotes and 26 comments. A companion app that reads thread state over the official MCP server already exists (t3buddy, works-today.md), so a first version needs no plugin API.",
+        "reasons_zh": "41 个 upvote、26 条评论。经官方 MCP 服务器读线程状态的伴侣应用已经存在（t3buddy，见 works-today.md），做第一版不需要插件 API。",
+        "as_of": "2026-11-26",
         "action": "keep"
       },
       "status": "open"
@@ -321,10 +321,10 @@
       ],
       "demand": {
         "basis": "discussion",
-        "upvotes": 20,
-        "comments": 8,
+        "upvotes": 24,
+        "comments": 9,
         "url": "https://github.com/pingdotgg/t3code/discussions/6943",
-        "as_of": "2026-11-19"
+        "as_of": "2026-11-26"
       },
       "mount_today": {
         "type": "standalone-page",
@@ -334,9 +334,9 @@
       },
       "review": {
         "value": "medium",
-        "reasons": "20 upvotes, 8 comments. A separate page can read git itself, so it is buildable now; docs/user describe commit links opening in the Diff pane (source-control.md) but no history browser.",
-        "reasons_zh": "20 个 upvote、8 条评论。独立页面可以自己读 git，现在就能做；docs/user 里提交链接能在 Diff 面板打开（source-control.md），但没有历史浏览器。",
-        "as_of": "2026-11-19",
+        "reasons": "24 upvotes, 9 comments. A separate page can read git itself, so it is buildable now. docs/user now describe a Commits view in the Diff pane that inspects the newest 100 local commits one by one (diffs.md, source-control.md); a 2026-11-23 comment says it lists only merge-base..HEAD, without author, other branches or merges, so a full history or graph view is still open.",
+        "reasons_zh": "24 个 upvote、9 条评论。独立页面可以自己读 git，现在就能做。docs/user 现已写明 Diff 面板的 Commits 视图可逐个查看最近 100 个本地提交（diffs.md、source-control.md）；2026-11-23 的评论说它只列 merge-base..HEAD，没有作者、其他分支和合并，所以完整历史或图形视图仍未满足。",
+        "as_of": "2026-11-26",
         "action": "keep"
       },
       "status": "open"
@@ -444,10 +444,10 @@
       ],
       "demand": {
         "basis": "discussion",
-        "upvotes": 31,
-        "comments": 16,
+        "upvotes": 37,
+        "comments": 20,
         "url": "https://github.com/pingdotgg/t3code/discussions/6762",
-        "as_of": "2026-11-19"
+        "as_of": "2026-11-26"
       },
       "mount_today": {
         "type": "needs-plugin-api",
@@ -456,9 +456,9 @@
       },
       "review": {
         "value": "high",
-        "reasons": "31 upvotes and 16 comments, plus a mobile post with 12 upvotes and 8 comments; docs/user describe no read-aloud for replies. Inference: a per-message action is a natural plugin, and it helps ordinary users who read away from the screen.",
-        "reasons_zh": "31 个 upvote、16 条评论，另有一条手机端帖子（12 个 upvote、8 条评论）；docs/user 没有朗读回复的功能。推断：逐条消息的操作很适合做成插件，对离开屏幕阅读的普通用户有用。",
-        "as_of": "2026-11-19",
+        "reasons": "37 upvotes and 20 comments, plus a mobile post with 12 upvotes and 8 comments; docs/user describe no read-aloud for replies. Inference: a per-message action is a natural plugin, and it helps ordinary users who read away from the screen.",
+        "reasons_zh": "37 个 upvote、20 条评论，另有一条手机端帖子（12 个 upvote、8 条评论）；docs/user 没有朗读回复的功能。推断：逐条消息的操作很适合做成插件，对离开屏幕阅读的普通用户有用。",
+        "as_of": "2026-11-26",
         "action": "keep"
       },
       "status": "open"
@@ -484,10 +484,10 @@
       ],
       "demand": {
         "basis": "discussion",
-        "upvotes": 24,
-        "comments": 12,
+        "upvotes": 29,
+        "comments": 14,
         "url": "https://github.com/pingdotgg/t3code/discussions/13073",
-        "as_of": "2026-11-19"
+        "as_of": "2026-11-26"
       },
       "mount_today": {
         "type": "needs-plugin-api",
@@ -497,9 +497,9 @@
       },
       "review": {
         "value": "medium",
-        "reasons": "24 upvotes, 12 comments. Usage already shows estimated cost by model and lets you set custom prices (usage.md), but docs/user describe no per-thread total, so part of the ask is open. It reads T3's own data, so core may fit better than a plugin (inference).",
-        "reasons_zh": "24 个 upvote、12 条评论。Usage 已经按模型显示估算费用，也能设自定义价格（usage.md），但 docs/user 没有线程级合计，所以这条还有一部分没满足。它读的是 T3 自己的数据，放核心可能比做插件合适（推断）。",
-        "as_of": "2026-11-19",
+        "reasons": "29 upvotes, 14 comments. Usage already shows estimated cost by model and lets you set custom prices (usage.md), but docs/user describe no per-thread total, so part of the ask is open. It reads T3's own data, so core may fit better than a plugin (inference).",
+        "reasons_zh": "29 个 upvote、14 条评论。Usage 已经按模型显示估算费用，也能设自定义价格（usage.md），但 docs/user 没有线程级合计，所以这条还有一部分没满足。它读的是 T3 自己的数据，放核心可能比做插件合适（推断）。",
+        "as_of": "2026-11-26",
         "action": "keep"
       },
       "status": "open"
